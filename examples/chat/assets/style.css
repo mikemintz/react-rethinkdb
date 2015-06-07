@@ -1,0 +1,181 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+#app, .contentOuter {
+  height: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+.loggedOut {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoutBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  text-align: right;
+  background: #eee;
+}
+
+.logoutBar button {
+  height: 100%;
+}
+
+.contentInner {
+  position: absolute;
+  top: 30px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatboxOuter {
+  position: relative;
+  height: 85%;
+  width: 85%;
+  border: 1px solid #888;
+}
+
+@media (max-width: 768px) {
+  .chatboxOuter {
+    height: 100%;
+    width: 100%;
+    border: none;
+  }
+}
+
+.autoScrollDown {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.chatboxScrollbox {
+  position: absolute;
+  top: 0;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+}
+
+.chatboxForm {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  border-top: 1px solid #888;
+  display: flex;
+}
+
+.chatboxForm > input {
+  flex-grow: 1;
+  border: 0;
+  height: 20px;
+  padding: 5px;
+}
+
+.chatboxForm > button {
+  border: 0;
+  height: 30px;
+  padding: 5px;
+  border-left: 1px solid #888;
+}
+
+.message {
+  display: flex;
+  align-items: flex-end;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.message.to {
+  justify-content: flex-end;
+}
+
+.message.from {
+  justify-content: flex-start;
+}
+
+.message .timestamp {
+  margin-top: 3px;
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+.message .messageSender {
+  flex-shrink: 0;
+  max-width: 30%;
+  min-width: 30px;
+  word-wrap: break-word;
+  color: #666;
+  font-size: 12px;
+}
+
+.message.to .messageSender {
+  order: 2;
+  padding-left: 15px;
+  text-align: right;
+}
+
+.message.from .messageSender {
+  order: 1;
+  padding-right: 15px;
+}
+
+.message .messageBody {
+  flex-shrink: 1;
+  border-radius: 15px;
+  padding: 10px 15px;
+  position: relative;
+}
+
+.message.to .messageBody {
+  order: 1;
+  background-color: #39e;
+  color: #eee;
+}
+
+.message.from .messageBody {
+  order: 2;
+  background-color: #ddd;
+  color: #333;
+}
+
+/* http://codepen.io/2ne/pen/osvpj */
+.message .messageBody:before {
+  border-left: #39e solid 20px;
+  border-right: #39e solid 20px;
+  border-radius: 50%;
+  clip: rect(20px, 35px, 40px, 0px);
+  content: " ";
+  height: 40px;
+  position: absolute;
+  bottom: 5px;
+  right: -50px;
+  width: 30px;
+  z-index: -1;
+}
+
+.message.from .messageBody:before {
+  border-color: #ddd;
+  left: -50px;
+  transform: rotateY(180deg);
+}

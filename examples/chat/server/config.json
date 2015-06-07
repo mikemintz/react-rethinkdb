@@ -1,0 +1,8 @@
+{
+  "webPort": 8015,
+  "dbName": "react_example_chat",
+  "dbHost": "localhost",
+  "dbPort": 28015,
+  "bcryptRounds": 8,
+  "authTokenBytes": 16
+}
