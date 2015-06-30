@@ -1,12 +1,12 @@
 {
   "name": "react-rethinkdb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "RethinkDB ReactJS integration",
   "author": "Mike Mintz",
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/mikemintz/react-rethinkdb.git"
+    "type": "git",
+    "url": "https://github.com/mikemintz/react-rethinkdb.git"
   },
   "scripts": {
     "prepublish": "eslint src && babel -d dist src"
