@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type" : "git",
-    "url" : "git@bitbucket.org:mikemintz/react-rethinkdb.git"
+    "url" : "https://github.com/mikemintz/react-rethinkdb.git"
   },
   "scripts": {
     "prepublish": "eslint src && babel -d dist src"
