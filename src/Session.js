@@ -1,7 +1,6 @@
 'use strict';
 
 import {ensure} from './util';
-import {Promise, connect as wsConnect} from 'rethinkdb-websocket-client';
 import {SubscriptionManager} from './SubscriptionManager';
 
 // A Session encapsulates a RethinkDB connection and active queries that React
@@ -21,31 +20,38 @@ import {SubscriptionManager} from './SubscriptionManager';
 // per application (likely DefaultSession), to call connect() when the user
 // authenticates (including authentication information in the path), and
 // close() when the user signs out.
+//
+// The exported MetaSession function allows dependency injection of
+// RethinkdbWebsocketClient, so that we can the resulting Session class work in
+// either node.js or the browser.
 
-export class Session {
-  constructor() {
-    const runQueryFn = this.runQuery.bind(this);
-    this._connPromise = null;
-    this._subscriptionManager = new SubscriptionManager(runQueryFn);
-  }
+export const MetaSession = RethinkdbWebsocketClient => {
+  const {Promise, connect} = RethinkdbWebsocketClient;
+  return class Session {
+    constructor() {
+      const runQueryFn = this.runQuery.bind(this);
+      this._connPromise = null;
+      this._subscriptionManager = new SubscriptionManager(runQueryFn);
+    }
 
-  connect({host, port, path, secure, db}) {
-    ensure(!this._connPromise, 'Session.connect() called when connected');
-    this._connPromise = new Promise((resolve, reject) => {
-      const wsProtocols = ['binary']; // for testing with websockify
-      const options = {host, port, path, wsProtocols, secure, db};
-      wsConnect(options).then(resolve, reject);
-    });
-  }
+    connect({host, port, path, secure, db}) {
+      ensure(!this._connPromise, 'Session.connect() called when connected');
+      this._connPromise = new Promise((resolve, reject) => {
+        const wsProtocols = ['binary']; // for testing with websockify
+        const options = {host, port, path, wsProtocols, secure, db};
+        connect(options).then(resolve, reject);
+      });
+    }
 
-  close() {
-    ensure(this._connPromise, 'Session.close() called when not connected');
-    this._connPromise.then(conn => conn.close());
-    this._connPromise = null;
-  }
+    close() {
+      ensure(this._connPromise, 'Session.close() called when not connected');
+      this._connPromise.then(conn => conn.close());
+      this._connPromise = null;
+    }
 
-  runQuery(query) {
-    ensure(this._connPromise, 'Must connect() before calling runQuery()');
-    return this._connPromise.then(c => query.run(c));
-  }
-}
+    runQuery(query) {
+      ensure(this._connPromise, 'Must connect() before calling runQuery()');
+      return this._connPromise.then(c => query.run(c));
+    }
+  };
+};
