@@ -133,9 +133,7 @@ React.render(<App />, document.getElementById('app'));
       flicker
     * To use on the server in node.js (as opposed to the browser), use the
       following path when importing the module:
-      ```js
-      var ReactRethinkdb = require('react-rethinkdb/dist/node');
-      ```
+      `var ReactRethinkdb = require('react-rethinkdb/dist/node');`
     * See the [`examples/isomorphic/`] directory for example usage
 * Query result caching
     - If a component subscribed to a query is unmounted, and a component is
