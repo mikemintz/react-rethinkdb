@@ -49,5 +49,3 @@ export class Session {
     return this._connPromise.then(c => query.run(c));
   }
 }
-
-export const DefaultSession = new Session();

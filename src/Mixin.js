@@ -1,7 +1,6 @@
 'use strict';
 
 import {QueryResult} from './QueryResult';
-import {Session, DefaultSession} from './Session';
 import {ensure} from './util';
 
 const update = (component, props, state) => {
@@ -76,7 +75,8 @@ export const BaseMixin = sessionGetter => ({
   componentWillMount() {
     const componentName = this && this.constructor && this.constructor.displayName || '';
     const session = sessionGetter(this);
-    ensure(session instanceof Session, `Mixin in ${componentName} does not have Session`);
+    ensure(session && session.constructor && session.constructor.name === 'Session',
+           `Mixin in ${componentName} does not have Session`);
     ensure(this.observe, `Must define ${componentName}.observe()`);
     ensure(session._connPromise, `Must connect() before mounting ${componentName}`);
     this._rethinkMixinState = {session, subscriptions: {}};
@@ -94,10 +94,6 @@ export const BaseMixin = sessionGetter => ({
     }
   },
 });
-
-// Singleton mixin for convenience, which uses the DefaultSession singleton as
-// the session.
-export const DefaultMixin = BaseMixin(() => DefaultSession);
 
 // Mixin that uses rethink session from props. For example:
 //   var MyComponent = React.createClass({
