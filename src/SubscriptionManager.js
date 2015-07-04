@@ -15,21 +15,45 @@ export class SubscriptionManager {
   constructor(runQuery) {
     this.runQuery = runQuery;
     this.queryKeyToState = {};
+    this.doneLoadingCallbacks = [];
   }
 
   subscribe(component, queryRequest, queryResult) {
     const queryKey = queryRequest.toStringKey();
     let queryState = this.queryKeyToState[queryKey];
     if (!queryState) {
+      const onUpdate = () => this._checkDoneLoading();
       const onCloseQueryState = () => {
         delete this.queryKeyToState[queryKey];
       };
-      queryState = new QueryState(queryRequest, this.runQuery, onCloseQueryState);
+      queryState = new QueryState(queryRequest, this.runQuery,
+                                  onUpdate, onCloseQueryState);
       this.queryKeyToState[queryKey] = queryState;
     }
     const subscription = queryState.subscribe(component, queryResult);
     return {
       unsubscribe: subscription.unsubscribe,
     };
+  }
+
+  onceDoneLoading(callback) {
+    this.doneLoadingCallbacks.push(callback);
+    this._checkDoneLoading();
+  }
+
+  _checkDoneLoading() {
+    if (this.doneLoadingCallbacks.length) {
+      let anyLoading = false;
+      Object.keys(this.queryKeyToState).forEach(queryKey => {
+        const queryState = this.queryKeyToState[queryKey];
+        if (queryState.loading && !queryState.errors.length) {
+          anyLoading = true;
+        }
+      });
+      if (!anyLoading) {
+        this.doneLoadingCallbacks.forEach(cb => cb());
+        this.doneLoadingCallbacks = [];
+      }
+    }
   }
 }

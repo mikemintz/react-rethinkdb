@@ -8,22 +8,24 @@ import {findIndex, isCursor, updateComponent} from './util.js';
 // active QueryRequests, and the loading and error status.
 //
 // The constructor takes an QueryRequest from the components interested in
-// this query, a runQuery function from the Session, and an onCloseQueryState
-// handler function that is called when this QueryState is closed (when the
-// last component has unsubscribed).
+// this query, a runQuery function from the Session, an onUpdate handler
+// function that is called when any QueryResults/components have updated,
+// and an onCloseQueryState handler function that is called when this
+// QueryState is closed (when the last component has unsubscribed).
 //
 // The subscribe method registers a component and its corresponding
 // QueryResult so that the component will have access to the query results.
 // It returns an object with an unsubscribe() method to be called when the
 // component is no longer interested in this query.
 export class QueryState {
-  constructor(queryRequest, runQuery, onCloseQueryState) {
+  constructor(queryRequest, runQuery, onUpdate, onCloseQueryState) {
     this.value = undefined;
     this.loading = true;
     this.errors = [];
 
     this.lastSubscriptionId = 0;
     this.subscriptions = {};
+    this.updateHandler = onUpdate;
     this.closeHandlers = [onCloseQueryState];
 
     // TODO It would be great not to have to run two separate queries, one with
@@ -110,6 +112,7 @@ export class QueryState {
       subscription.queryResult._setErrors(this.errors);
       updateComponent(subscription.component);
     });
+    this.updateHandler();
   }
 
   _addError(error) {

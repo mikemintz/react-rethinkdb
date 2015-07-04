@@ -16,6 +16,9 @@ import {SubscriptionManager} from './SubscriptionManager';
 // not have to wait for it to finish connecting, as it will automatically wait
 // on the connection promise.
 //
+// Call onceDoneLoading() with a callback to be notified when there are no
+// active queries waiting on results.
+//
 // You may reopen a closed session. A typical use case is to have one session
 // per application (likely DefaultSession), to call connect() when the user
 // authenticates (including authentication information in the path), and
@@ -58,6 +61,10 @@ export const MetaSession = RethinkdbWebsocketClient => {
       // rethinkdb driver.
       const {run} = new RethinkdbWebsocketClient.rethinkdb(null);
       return this._connPromise.then(c => run.bind(query)(c));
+    }
+
+    onceDoneLoading(callback) {
+      this._subscriptionManager.onceDoneLoading(callback);
     }
   };
 };
