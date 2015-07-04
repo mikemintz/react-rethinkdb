@@ -38,6 +38,24 @@ connecting to RethinkDB from the browser without React, you can use
 capabilities. It is quite popular, it is the second most starred database on
 GitHub after Redis.
 
+## Is this secure?
+
+Although it seems quite insecure to run database queries directly from the
+frontend, all queries should be validated by [rethinkdb-websocket-server]
+before they are forwarded to RethinkDB. From its README:
+
+> As you are developing, incoming queries that don't validate against the
+> whitelist will be logged to console in a format that you can copy and paste
+> directly into your JavaScript source file. For dynamic queries, you'll likely
+> want to generalize the pattern using `function(actual, refs, session)` terms,
+> `RQ.ref()` terms, and the `.validate()` method.
+
+See [`examples/chat/`] for an
+example app that has user authentication and query validation in the backend.
+
+Most of the query validation logic can be found in
+[`QueryValidator.js`].
+
 ## How do I use this?
 
 Check out the [`examples/`] folder in this repository for fully-working React
@@ -152,12 +170,14 @@ React.render(<App />, document.getElementById('app'));
     - [Reqlite] may prove helpful here.
 
 [`examples/`]: examples/
+[`examples/chat/`]: examples/chat/
 [`examples/isomorphic/`]: examples/isomorphic/
 [`src/`]: src/
 [`Session.js`]: src/Session.js
 [`Mixin.js`]: src/Mixin.js
 [`QueryRequest.js`]: src/QueryRequest.js
 [`QueryResult.js`]: src/QueryResult.js
+[`QueryValidator.js`]: https://github.com/mikemintz/rethinkdb-websocket-server/blob/master/src/QueryValidator.js
 
 [Firebase]: https://www.firebase.com/
 [Meteor]: https://www.meteor.com/
