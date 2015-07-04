@@ -136,6 +136,7 @@ React.render(<App />, document.getElementById('app'));
       ```js
       var ReactRethinkdb = require('react-rethinkdb/dist/node');
       ```
+    * See the [`examples/isomorphic/`] directory for example usage
 * Query result caching
     - If a component subscribed to a query is unmounted, and a component is
       later mounted with the same exact query, the second component should
@@ -153,6 +154,7 @@ React.render(<App />, document.getElementById('app'));
     - [Reqlite] may prove helpful here.
 
 [`examples/`]: examples/
+[`examples/isomorphic/`]: examples/isomorphic/
 [`src/`]: src/
 [`Session.js`]: src/Session.js
 [`Mixin.js`]: src/Mixin.js
