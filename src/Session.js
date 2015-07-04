@@ -51,7 +51,13 @@ export const MetaSession = RethinkdbWebsocketClient => {
 
     runQuery(query) {
       ensure(this._connPromise, 'Must connect() before calling runQuery()');
-      return this._connPromise.then(c => query.run(c));
+      // Rather than calling query.run(c), we create a new rethinkdb term and
+      // use its run function. That way, if the provided query comes from a
+      // different RethinkdbWebsocketClient, it'll run using the current
+      // environment. This is mainly to workaround an instanceof check in the
+      // rethinkdb driver.
+      const {run} = new RethinkdbWebsocketClient.rethinkdb(null);
+      return this._connPromise.then(c => run.bind(query)(c));
     }
   };
 };
