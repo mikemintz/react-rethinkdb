@@ -127,10 +127,15 @@ React.render(<App />, document.getElementById('app'));
     - https://github.com/facebook/react/pull/3920
 * Support for [React components written as ES6 classes]
 * [React Native] support (currently completely untested)
-* Isomorphic app support (currently completely untested)
+* Isomorphic app support (currently incomplete)
     * This might be tricky for queries with changefeeds unless we require the
       browser to rerun the query. But then we might have an extra loading
       flicker
+    * To use on the server in node.js (as opposed to the browser), use the
+      following path when importing the module:
+      ```js
+      var ReactRethinkdb = require('react-rethinkdb/dist/node');
+      ```
 * Query result caching
     - If a component subscribed to a query is unmounted, and a component is
       later mounted with the same exact query, the second component should
