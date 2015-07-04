@@ -16,7 +16,9 @@ export const ensure = (value, msg) => {
 };
 
 export const updateComponent = component => {
-  if (component.isMounted()) {
+  // Check for document because of this bug:
+  // https://github.com/facebook/react/issues/3620
+  if (component.isMounted() && typeof document !== 'undefined') {
     component.forceUpdate();
   }
 };
