@@ -182,7 +182,7 @@ React.render(<App />, document.getElementById('app'));
 [Firebase]: https://www.firebase.com/
 [Meteor]: https://www.meteor.com/
 [MongoDB]: https://www.mongodb.org/
-[ParseReact]: https://www.firebase.com/docs/web/libraries/react/
+[ParseReact]: https://github.com/ParsePlatform/ParseReact
 [Parse]: https://parse.com/
 [React Native]: https://facebook.github.io/react-native/
 [React components written as ES6 classes]: https://facebook.github.io/react/docs/reusable-components.html#es6-classes
