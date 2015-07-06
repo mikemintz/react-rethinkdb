@@ -128,6 +128,7 @@ React.render(<App />, document.getElementById('app'));
 
 ## Limitations
 
+* Requires [WebSocket support in browser](http://caniuse.com/#feat=websockets) (IE10+)
 * RethinkDB changefeeds don't work on aggregations like `.count()`, but it will eventually be supported.
     * https://github.com/rethinkdb/rethinkdb/issues/3735
     * https://github.com/rethinkdb/rethinkdb/issues/1118
@@ -136,7 +137,13 @@ React.render(<App />, document.getElementById('app'));
 
 ## Roadmap
 
-* Investigate browser compatibility. So far I've only tested in chrome.
+* Investigate browser compatibility. So far, it has been tested with:
+    - Chrome 43 (Linux)
+    - Chrome 43 (Android 5.0)
+    - Chrome 43 (Android 4.4)
+    - Firefox 38 (Linux)
+    - Safari 7.1 (OS X 10.9)
+    - Safari 8.0 (iOS 8.1)
 * Investigate performance. I haven't tested with large queries, large numbers
   of queries, or large result sets.
 * Change mixin API when best practices are established for data loading in React.
