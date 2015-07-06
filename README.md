@@ -17,12 +17,12 @@ frontend, these solutions allow the frontend to directly access the data layer
 (secured by a permission system) using the same query API that backend services
 have access to.
 
-|                   | React support  | Database    | Realtime | Open-source |
-| ---------------   | -------------  | ----------- | ---------| ------------|
-| [react-rethinkdb] | &#x2713;       | [RethinkDB] | &#x2713; | &#x2713;    |
-| [Meteor]          | [react-meteor] | [MongoDB]   | &#x2713; | &#x2713;    |
-| [Parse]           | [ParseReact]   | [MongoDB]   |          |             |
-| [Firebase]        | [ReactFire]    | [MongoDB]   | &#x2713; |             |
+|                   | React support                       | Database    | Realtime | Open-source |
+| ---------------   | -------------                       | ----------- | ---------| ------------|
+| [react-rethinkdb] | &#x2713;                            | [RethinkDB] | &#x2713; | &#x2713;    |
+| [Meteor]          | [react-meteor] and [react-packages] | [MongoDB]   | &#x2713; | &#x2713;    |
+| [Parse]           | [ParseReact]                        | [MongoDB]   |          |             |
+| [Firebase]        | [ReactFire]                         | [MongoDB]   | &#x2713; |             |
 
 ## What is React?
 
@@ -192,6 +192,7 @@ React.render(<App />, document.getElementById('app'));
 [RethinkDB]: http://rethinkdb.com/
 [install RethinkDB]: http://rethinkdb.com/docs/install/
 [react-meteor]: https://github.com/reactjs/react-meteor
+[react-packages]: https://github.com/meteor/react-packages
 [react-rethinkdb]: https://github.com/mikemintz/react-rethinkdb
 [rethinkdb-websocket-client]: https://github.com/mikemintz/rethinkdb-websocket-client
 [rethinkdb-websocket-server]: https://github.com/mikemintz/rethinkdb-websocket-server
