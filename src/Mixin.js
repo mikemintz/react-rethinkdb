@@ -75,7 +75,7 @@ export const BaseMixin = sessionGetter => ({
   componentWillMount() {
     const componentName = this && this.constructor && this.constructor.displayName || '';
     const session = sessionGetter(this);
-    ensure(session && session.constructor && session.constructor.name === 'Session',
+    ensure(session && session._subscriptionManager,
            `Mixin in ${componentName} does not have Session`);
     ensure(this.observe, `Must define ${componentName}.observe()`);
     ensure(session._connPromise, `Must connect() before mounting ${componentName}`);
