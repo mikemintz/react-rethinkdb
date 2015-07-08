@@ -128,25 +128,35 @@ React.render(<App />, document.getElementById('app'));
 
 ## Limitations
 
-* RethinkDB JS driver does not support IE10.
-    * https://github.com/rethinkdb/rethinkdb/issues/162
-* Requires [WebSocket support in browser](http://caniuse.com/#feat=websockets) (IE10+)
 * RethinkDB changefeeds don't work on aggregations like `.count()`, but it will eventually be supported.
     * https://github.com/rethinkdb/rethinkdb/issues/3735
     * https://github.com/rethinkdb/rethinkdb/issues/1118
 * RethinkDB changefeed queries with `.orderBy()` may not be ordered correctly, but it will eventually be possible.
     * https://github.com/rethinkdb/rethinkdb/issues/3714
 
+## Compatibility
+
+So far, this library has been tested successfully in the following environments:
+* Chrome 43 (Linux)
+* Chrome 43 (Android 5.0)
+* Chrome 43 (Android 4.4)
+* Chrome 44 (OS X 10.10)
+* Firefox 38 (Linux)
+* Safari 7.1 (OS X 10.9)
+* Safari 8.0 (OS X 10.10)
+* Safari 8.0 (iOS 8.1)
+* IE11 (Win 7)
+* Node.js 0.12 (Linux)
+
+In order to support IE10, the following issue needs to be resolved in the
+RethinkDB JS driver: https://github.com/rethinkdb/rethinkdb/issues/162
+
+IE9 and old android browsers are not supported because [they don't have
+WebSockets](http://caniuse.com/#feat=websockets), and
+[rethinkdb-websocket-client] currently requires WebSocket support.
+
 ## Roadmap
 
-* Investigate browser compatibility. So far, it has been tested with:
-    - Chrome 43 (Linux)
-    - Chrome 43 (Android 5.0)
-    - Chrome 43 (Android 4.4)
-    - Firefox 38 (Linux)
-    - Safari 7.1 (OS X 10.9)
-    - Safari 8.0 (iOS 8.1)
-    - IE11 (Win 7)
 * Investigate performance. I haven't tested with large queries, large numbers
   of queries, or large result sets.
 * Change mixin API when best practices are established for data loading in React.
