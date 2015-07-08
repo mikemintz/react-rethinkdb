@@ -128,6 +128,8 @@ React.render(<App />, document.getElementById('app'));
 
 ## Limitations
 
+* RethinkDB JS driver does not support IE10.
+    * https://github.com/rethinkdb/rethinkdb/issues/162
 * Requires [WebSocket support in browser](http://caniuse.com/#feat=websockets) (IE10+)
 * RethinkDB changefeeds don't work on aggregations like `.count()`, but it will eventually be supported.
     * https://github.com/rethinkdb/rethinkdb/issues/3735
