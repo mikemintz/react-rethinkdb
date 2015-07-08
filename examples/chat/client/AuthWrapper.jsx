@@ -25,11 +25,12 @@ export const AuthWrapper = React.createClass({
     const path = '/db'
                + '?userId=' + encodeURIComponent(userId)
                + '&authToken=' + encodeURIComponent(authToken);
+    const secure = window.location.protocol === 'https:';
     RethinkSession.connect({
       host: window.location.hostname,
-      port: window.location.port,
+      port: window.location.port || (secure ? 443 : 80),
       path: path,
-      secure: window.location.protocol === 'https:',
+      secure: secure,
       db: 'react_example_chat',
     });
   },
