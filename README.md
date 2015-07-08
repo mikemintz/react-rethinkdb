@@ -144,6 +144,7 @@ React.render(<App />, document.getElementById('app'));
     - Firefox 38 (Linux)
     - Safari 7.1 (OS X 10.9)
     - Safari 8.0 (iOS 8.1)
+    - IE11 (Win 7)
 * Investigate performance. I haven't tested with large queries, large numbers
   of queries, or large result sets.
 * Change mixin API when best practices are established for data loading in React.
