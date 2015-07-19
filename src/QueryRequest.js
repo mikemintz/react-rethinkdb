@@ -38,6 +38,15 @@ export class QueryRequest {
   // functions, since the variable identifier keeps incrementing when we create
   // new "identical" queries.
   // E.g. r.table('turtles').filter(x => x('herdId').eq(props.herdId))
+  // It looks like the RethinkDB JavaScript driver has to maintain a global
+  // nextVarId counter which can increment between the creation of identical
+  // queries. This is probably necessary so that queries that contain multiple
+  // functions won't have overlapping var ids. One possible approach is to
+  // "normalize" var ids as a query preprocessing step: replace each var id
+  // with an index in which that var id was first seen in the query. Further
+  // research needs to be done to determine if that is safe.  This approach has
+  // a disadvantage of being harder to debug query issues when queries are
+  // being altered.
   toStringKey() {
     return JSON.stringify({
       query: this.query.build(),
