@@ -1,0 +1,6 @@
+{
+  "webPort": 8015,
+  "dbName": "react_example_chess",
+  "dbHost": "localhost",
+  "dbPort": 28015
+}
