@@ -3,8 +3,6 @@
 import Promise from 'bluebird';
 import r from 'rethinkdb';
 
-//TODO eslint this file automatically
-
 const connPromise = Promise.promisify(r.connect)({
   host: 'localhost',
   port: 28015,
