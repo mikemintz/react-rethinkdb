@@ -2,11 +2,12 @@
 
 import Promise from 'bluebird';
 import r from 'rethinkdb';
+import cfg from './config';
 
 const connPromise = Promise.promisify(r.connect)({
-  host: 'localhost',
-  port: 28015,
-  db: 'react_example_chat',
+  host: cfg.dbHost,
+  port: cfg.dbPort,
+  db: cfg.dbName,
 });
 const run = q => connPromise.then(c => q.run(c));
 
@@ -20,7 +21,7 @@ const recreateTable = name => run(r.tableDrop(name))
                               .catch(() => {})
                               .then(() => run(r.tableCreate(name)));
 
-recreateDb('react_example_chat').then(() => (
+recreateDb(cfg.dbName).then(() => (
   Promise.all([
     recreateTable('messages').then(() => (
       run(r.table('messages').indexCreate('createdAt'))
