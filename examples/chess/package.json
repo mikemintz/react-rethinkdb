@@ -16,7 +16,7 @@
     "lodash": "3.10.0",
     "moment": "2.10.3",
     "react": "0.13.3",
-    "react-rethinkdb": "0.2.1",
+    "react-rethinkdb": "0.3.0",
     "react-router": "0.13.3",
 
     "bluebird": "2.9.27",

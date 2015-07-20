@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "react": "0.13.3",
-    "react-rethinkdb": "0.2.1",
+    "react-rethinkdb": "0.3.0",
 
     "bluebird": "2.9.30",
     "express": "4.13.0",
