@@ -33,11 +33,7 @@ export const Home = React.createClass({
   },
 
   render() {
-    // TODO Remove allowStaleQuery option when react-rethinkdb supports
-    // deterministic keys for queries with var ids. See toStringKey() in
-    // QueryRequest.js in react-rethinkdb. Right now this option is used to
-    // prevent a flicker while the query is resubmitted to the backend.
-    const games = this.data.games.value({allowStaleQuery: true});
+    const games = this.data.games.value();
     const orderedGames = _.sortBy(games, x => -x.createdAt.getTime());
     const selectedGame = _.find(games, {id: this.props.params.gameId});
     return (

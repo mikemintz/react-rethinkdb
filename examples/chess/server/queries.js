@@ -29,7 +29,7 @@ export const queryWhitelist = [
     RQ.MERGE(
       RQ.TABLE("games"),
       RQ.FUNC(
-        RQ.MAKE_ARRAY(x => typeof x === 'number'),
+        RQ.MAKE_ARRAY(0),
         {
           "whiteAuthToken": RQ.BRANCH(
             RQ.EQ(
@@ -64,7 +64,7 @@ export const queryWhitelist = [
       RQ.MERGE(
         RQ.TABLE("games"),
         RQ.FUNC(
-        RQ.MAKE_ARRAY(x => typeof x === 'number'),
+        RQ.MAKE_ARRAY(0),
           {
             "whiteAuthToken": RQ.BRANCH(
               RQ.EQ(

@@ -19,7 +19,7 @@ export const queryWhitelist = [
     RQ.FILTER(
       RQ.ORDER_BY(RQ.TABLE("messages")).opt("index", "createdAt"),
       RQ.FUNC(
-        RQ.MAKE_ARRAY(x => typeof x === 'number'),
+        RQ.MAKE_ARRAY(0),
         RQ.GE(
           RQ.BRACKET(RQ.IMPLICIT_VAR(), "createdAt"),
           RQ.ISO8601(x => typeof x === 'string')
@@ -34,7 +34,7 @@ export const queryWhitelist = [
       RQ.FILTER(
         RQ.ORDER_BY(RQ.TABLE("messages")).opt("index", "createdAt"),
         RQ.FUNC(
-        RQ.MAKE_ARRAY(x => typeof x === 'number'),
+        RQ.MAKE_ARRAY(0),
           RQ.GE(
             RQ.BRACKET(RQ.IMPLICIT_VAR(), "createdAt"),
             RQ.ISO8601(x => typeof x === 'string')
