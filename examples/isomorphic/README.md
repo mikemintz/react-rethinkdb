@@ -5,7 +5,6 @@ the server in node.js, and then rendered again in the browser.
 
 ## How do I run this?
 
-* Make sure you have `node_modules/.bin` in your `$PATH` environment variable
 * Start a RethinkDB server on `localhost` port `28015`
 * Manually create a table called `turtles` in the db called `test`, and add a
   row or two with a name field

@@ -6,7 +6,6 @@ Based on the [React TodoMVC example](http://todomvc.com/examples/react/).
 
 ## How do I run this?
 
-* Make sure you have `node_modules/.bin` in your `$PATH` environment variable
 * Start a RethinkDB server on `localhost` port `28015`
 * Run `npm install` to set up the app
 * Run `npm run resetdb` to reset a database with name `react_example_todomvc`
