@@ -30,9 +30,8 @@ export class QueryRequest {
   // QueryRequests that need access to the same data.
   //
   // TODO We should recursively sort object keys, using something like
-  // json-stable-stringify. But let's do that for query validation in
-  // rethinkdb-websocket-server first, after confirming that object sort order is
-  // ignored in RethinkDB.
+  // json-stable-stringify, since object key order is ignored in RethinkDB.
+  // https://groups.google.com/forum/#!msg/rethinkdb/-3VjyzyfW9o/hmR3ZFCRBwAJ
   toStringKey() {
     return JSON.stringify({
       query: this.query.build(),
