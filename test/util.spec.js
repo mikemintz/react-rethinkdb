@@ -1,9 +1,11 @@
 /*eslint-env mocha */
 
 import assert from 'assert';
+import {rethinkdb as r, protodef} from 'rethinkdb-websocket-client';
 import {
   findIndex,
   ensure,
+  normalizeQueryVars,
 } from '../src/util';
 
 describe('util', () => {
@@ -21,8 +23,8 @@ describe('util', () => {
   });
 
   describe('ensure', () => {
-    const truthyValues = [1, 'a', [], {}];
-    const falsyValues = [0, '', undefined, null];
+    const truthyValues = [true, 1, 'a', [], {}];
+    const falsyValues = [false, 0, '', undefined, null];
     it('does nothing for truthy values', () => {
       truthyValues.forEach(x => ensure(x, 'blah'));
     });
@@ -42,7 +44,31 @@ describe('util', () => {
   });
 
   describe('normalizeQueryVars', () => {
-    it.skip('works');
+    const genQuery = () => (
+      r.table('turtles').filter(t => t('color').eq('green'))
+    );
+    const q1 = genQuery();
+    const q2 = genQuery();
+    it('is necessary', () => {
+      assert.notStrictEqual(JSON.stringify(q1.build()), JSON.stringify(q2.build()));
+    });
+    it('results in identical encodings of identical queries', () => {
+      const nq1 = normalizeQueryVars(q1);
+      const nq2 = normalizeQueryVars(q2);
+      const tt = protodef.Term.TermType;
+      const encoding = [tt.FILTER, [
+        [tt.TABLE, ['turtles']],
+        [tt.FUNC, [
+          [tt.MAKE_ARRAY, [0]],
+          [tt.EQ, [
+            [tt.BRACKET, [[tt.VAR, [0]], 'color']],
+            'green'
+          ]]
+        ]]
+      ]];
+      assert.strictEqual(JSON.stringify(nq1.build()), JSON.stringify(nq2.build()));
+      assert.strictEqual(JSON.stringify(nq1.build()), JSON.stringify(encoding));
+    });
   });
 
 });
