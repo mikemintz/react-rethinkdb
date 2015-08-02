@@ -1,4 +1,5 @@
 [![npm version](https://img.shields.io/npm/v/react-rethinkdb.svg)](https://www.npmjs.com/package/react-rethinkdb)
+[![Travis](https://img.shields.io/travis/mikemintz/react-rethinkdb.svg)](https://travis-ci.org/mikemintz/react-rethinkdb)
 
 # react-rethinkdb
 
