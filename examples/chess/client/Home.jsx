@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {r, QueryRequest, DefaultMixin as RethinkMixin} from 'react-rethinkdb';
 import _ from 'lodash';

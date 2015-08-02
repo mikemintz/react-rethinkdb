@@ -1,5 +1,3 @@
-'use strict';
-
 import {QueryState} from './QueryState';
 
 // SubscriptionManager tracks active QueryStates, so that two components that

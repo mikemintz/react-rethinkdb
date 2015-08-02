@@ -16,7 +16,7 @@
     "no-unused-vars": [2, {"vars": "all", "args": "none"}],
     "no-use-before-define": [2],
     "no-var": [2],
-    "strict": [2, "global"],
+    "strict": [2, "never"],
 
     "brace-style": [2, "1tbs"],
     "comma-spacing": [2, {"before": false, "after": true}],

@@ -1,5 +1,3 @@
-'use strict';
-
 import {MetaSession} from './Session';
 import * as RethinkdbWebsocketClient from 'rethinkdb-websocket-client/dist/node';
 

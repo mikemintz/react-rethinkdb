@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 // http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html

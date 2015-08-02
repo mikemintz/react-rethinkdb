@@ -1,5 +1,3 @@
-'use strict';
-
 import {ensure} from './util';
 import {SubscriptionManager} from './SubscriptionManager';
 

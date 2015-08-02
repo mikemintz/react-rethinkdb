@@ -1,5 +1,3 @@
-'use strict';
-
 import cfg from './config';
 import {RQ} from 'rethinkdb-websocket-server';
 

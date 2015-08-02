@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {r, QueryRequest, PropsMixin as RethinkMixin} from 'react-rethinkdb';
 

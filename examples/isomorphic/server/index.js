@@ -1,5 +1,3 @@
-'use strict';
-
 import express from 'express';
 import http from 'http';
 import {listen as wsListen} from 'rethinkdb-websocket-server';

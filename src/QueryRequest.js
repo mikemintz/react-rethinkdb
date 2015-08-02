@@ -1,5 +1,3 @@
-'use strict';
-
 import {normalizeQueryVars} from './util';
 
 // An QueryRequest is used to represent a RethinkDB query that a component is

@@ -1,5 +1,3 @@
-'use strict';
-
 import {rethinkdb, protodef} from 'rethinkdb-websocket-client';
 
 export const findIndex = (arr, fn) => {

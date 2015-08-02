@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import crypto from 'crypto';
 import ReactRouter from 'react-router';

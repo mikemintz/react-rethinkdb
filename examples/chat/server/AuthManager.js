@@ -1,5 +1,3 @@
-'use strict';
-
 import bcrypt from 'bcrypt';
 import cfg from './config';
 import crypto from 'crypto';

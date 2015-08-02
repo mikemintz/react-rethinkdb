@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import moment from 'moment';
 import {r, DefaultSession as RethinkSession} from 'react-rethinkdb';

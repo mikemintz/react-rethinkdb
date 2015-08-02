@@ -1,5 +1,3 @@
-'use strict';
-
 import {AuthManager} from './AuthManager';
 import cfg from './config';
 import express from 'express';

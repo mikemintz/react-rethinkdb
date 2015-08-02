@@ -1,5 +1,3 @@
-'use strict';
-
 import cfg from './config';
 import express from 'express';
 import http from 'http';

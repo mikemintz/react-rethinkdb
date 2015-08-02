@@ -1,5 +1,3 @@
-'use strict';
-
 import cfg from './config';
 import r from 'rethinkdb';
 import Promise from 'bluebird';

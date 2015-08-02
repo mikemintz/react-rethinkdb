@@ -1,5 +1,3 @@
-'use strict';
-
 // An QueryResult is used to represent the results returned from the
 // RethinkDB database in response to a query. It also keeps track of the state
 // of the query, including whether or not it's loading, and if there were any

@@ -1,5 +1,3 @@
-'use strict';
-
 import {QueryResult} from './QueryResult';
 import {ensure} from './util';
 

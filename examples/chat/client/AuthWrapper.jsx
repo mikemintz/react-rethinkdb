@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import request from 'superagent';
 import {DefaultSession as RethinkSession} from 'react-rethinkdb';

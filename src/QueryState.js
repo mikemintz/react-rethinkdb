@@ -1,5 +1,3 @@
-'use strict';
-
 import {findIndex, isCursor, updateComponent} from './util.js';
 
 // A QueryState represents the state of a single RethinkDB query, which may be

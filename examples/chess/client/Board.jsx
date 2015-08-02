@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {r, DefaultSession as RethinkSession} from 'react-rethinkdb';
 import _ from 'lodash';
