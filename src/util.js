@@ -1,7 +1,7 @@
 import {rethinkdb, protodef} from 'rethinkdb-websocket-client';
 
 export const findIndex = (arr, fn) => {
-  for (let i in arr) {
+  for (let i = 0; i < arr.length; ++i) {
     if (fn(arr[i])) {
       return i;
     }
