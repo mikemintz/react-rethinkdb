@@ -44,19 +44,24 @@ describe('util', () => {
   });
 
   describe('normalizeQueryEncoding', () => {
-    const genQuery = () => (
+    const genQuery1 = () => (
       r.table('turtles').filter(t => t('color').eq('green'))
     );
-    const q1 = genQuery();
-    const q2 = genQuery();
+    const q1a = genQuery1();
+    const q1b = genQuery1();
+    const q2a = r.table('turtles').insert({color: 'green', isSeaTurtle: true});
+    const q2b = r.table('turtles').insert({isSeaTurtle: true, color: 'green'});
     it('is necessary', () => {
-      assert.notStrictEqual(JSON.stringify(q1.build()), JSON.stringify(q2.build()));
+      assert.notStrictEqual(JSON.stringify(q1a.build()), JSON.stringify(q1b.build()));
+      assert.notStrictEqual(JSON.stringify(q2a.build()), JSON.stringify(q2b.build()));
     });
     it('results in identical encodings of identical queries', () => {
-      const nq1 = normalizeQueryEncoding(q1);
-      const nq2 = normalizeQueryEncoding(q2);
+      const nq1a = normalizeQueryEncoding(q1a);
+      const nq1b = normalizeQueryEncoding(q1b);
+      const nq2a = normalizeQueryEncoding(q2a);
+      const nq2b = normalizeQueryEncoding(q2b);
       const tt = protodef.Term.TermType;
-      const encoding = [tt.FILTER, [
+      const encoding1 = [tt.FILTER, [
         [tt.TABLE, ['turtles']],
         [tt.FUNC, [
           [tt.MAKE_ARRAY, [0]],
@@ -66,8 +71,14 @@ describe('util', () => {
           ]]
         ]]
       ]];
-      assert.strictEqual(JSON.stringify(nq1.build()), JSON.stringify(nq2.build()));
-      assert.strictEqual(JSON.stringify(nq1.build()), JSON.stringify(encoding));
+      const encoding2 = [tt.INSERT, [
+        [tt.TABLE, ['turtles']],
+        {color: 'green', isSeaTurtle: true}
+      ]];
+      assert.strictEqual(JSON.stringify(nq1a.build()), JSON.stringify(nq1b.build()));
+      assert.strictEqual(JSON.stringify(nq1a.build()), JSON.stringify(encoding1));
+      assert.strictEqual(JSON.stringify(nq2a.build()), JSON.stringify(nq2b.build()));
+      assert.strictEqual(JSON.stringify(nq2a.build()), JSON.stringify(encoding2));
     });
   });
 

@@ -28,10 +28,6 @@ export class QueryRequest {
   // Convert the QueryRequest into a string that can be used as a
   // deterministic lookup key in an object. The key should be identical for two
   // QueryRequests that need access to the same data.
-  //
-  // TODO We should recursively sort object keys, using something like
-  // json-stable-stringify, since object key order is ignored in RethinkDB.
-  // https://groups.google.com/forum/#!msg/rethinkdb/-3VjyzyfW9o/hmR3ZFCRBwAJ
   toStringKey() {
     return JSON.stringify({
       query: this.query.build(),

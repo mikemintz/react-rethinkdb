@@ -29,8 +29,24 @@ export const isCursor = x => (
   x && typeof x === 'object' && typeof x.toArray === 'function'
 );
 
-// Return a normalized version of the RethinkDB query, in which var ids are
-// guaranteed to be consistent when re-generating the same query.
+// Return a copy of the RethinkDB query, in which the JSON encoding is
+// normalized, so identical queries will always generate the same string for
+// JSON.stringify(query.build()).
+//
+// This allows QueryRequest.toStringKey() to return the same value for
+// identical queries, facilitating the sharing of results among components that
+// subscribe to the same query.
+//
+// This also simplifies the query whitelist in the backend, since there are
+// fewer variations of the same types of queries.
+//
+// This function performs two types of normalization:
+// 1. Ensure objects are created with the same insertion order
+// 2. Ensure var ids are consistent when re-generating the same query
+//
+// Object insertion order normalization will make these two queries identical:
+//   r.table('turtles').insert({color: 'green', isSeaTurtle: true});
+//   r.table('turtles').insert({isSeaTurtle: true, color: 'green'});
 //
 // Var ids are used in reql anonymous functions. For example, the query below
 // is represents as follows in the RethinkDB JSON protocol:
@@ -56,13 +72,6 @@ export const isCursor = x => (
 // time it is generated, the RethinkDB protocol represents it differently. By
 // wrapping the query with this function, the RethinkDB protocol will look the
 // same regardless of what the var ids are.
-//
-// This allows QueryRequest.toStringKey() to return the same value for
-// identical queries, facilitating the sharing of results among components that
-// subscribe to the same query.
-//
-// This also simplifies the query whitelist in the backend, since there are
-// fewer variations of the same types of queries.
 export const normalizeQueryEncoding = query => {
   // Since we can't clone query objects, we'll make a new query and override
   // the build() method that the driver uses to serialize to the JSON protocol.
@@ -90,15 +99,24 @@ export const normalizeQueryEncoding = query => {
           // The term looks like [VAR, [1]]
           args[0] = normalize(args[0]);
         }
-        args.forEach(traverse);
-        traverse(options);
+        const normalizedTerm = [termId, args.map(traverse)];
+        if (options) {
+          normalizedTerm.push(traverse(options));
+        }
+        return normalizedTerm;
       } else if (term && typeof term === 'object') {
-        Object.keys(term).forEach(key => traverse(term[key]));
+        const normalizedObject = {};
+        const keys = Object.keys(term);
+        keys.sort();
+        keys.forEach(key => {
+          normalizedObject[key] = traverse(term[key]);
+        });
+        return normalizedObject;
+      } else {
+        return term;
       }
     };
-    const result = query.build();
-    traverse(result);
-    return result;
+    return traverse(query.build());
   };
   return normalizedQuery;
 };
