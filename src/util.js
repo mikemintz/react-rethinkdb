@@ -81,23 +81,23 @@ export const normalizeQueryEncoding = query => {
   // don't want to mess with.
   const normalizedQuery = rethinkdb([query]);
   normalizedQuery.build = () => {
-    let nextNormalizedId = 0;
-    const idToNormalizedMap = {};
-    const normalize = id => {
-      if (!(id in idToNormalizedMap)) {
-        idToNormalizedMap[id] = nextNormalizedId++;
+    let nextNormalizedVarId = 0;
+    const varIdToNormalizedMap = {};
+    const normalizeVarId = id => {
+      if (!(id in varIdToNormalizedMap)) {
+        varIdToNormalizedMap[id] = nextNormalizedVarId++;
       }
-      return idToNormalizedMap[id];
+      return varIdToNormalizedMap[id];
     };
     const traverse = term => {
       if (Array.isArray(term)) {
         const [termId, args, options] = term;
         if (termId === protodef.Term.TermType.FUNC) {
           // The term looks like [FUNC, [[MAKE_ARRAY, [1, 2]], ...]]
-          args[0][1] = args[0][1].map(normalize);
+          args[0][1] = args[0][1].map(normalizeVarId);
         } else if (termId === protodef.Term.TermType.VAR) {
           // The term looks like [VAR, [1]]
-          args[0] = normalize(args[0]);
+          args[0] = normalizeVarId(args[0]);
         }
         const normalizedTerm = [termId, args.map(traverse)];
         if (options) {
