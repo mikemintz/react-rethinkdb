@@ -1,4 +1,4 @@
-import {normalizeQueryVars} from './util';
+import {normalizeQueryEncoding} from './util';
 
 // An QueryRequest is used to represent a RethinkDB query that a component is
 // subscribed to. It should be used for values in the object returned from the
@@ -20,7 +20,7 @@ import {normalizeQueryVars} from './util';
 //   })
 export class QueryRequest {
   constructor({query, changes, initial}) {
-    this.query = normalizeQueryVars(query);
+    this.query = normalizeQueryEncoding(query);
     this.changes = changes;
     this.initial = initial;
   }

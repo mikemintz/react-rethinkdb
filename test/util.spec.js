@@ -5,7 +5,7 @@ import {rethinkdb as r, protodef} from 'rethinkdb-websocket-client';
 import {
   findIndex,
   ensure,
-  normalizeQueryVars,
+  normalizeQueryEncoding,
 } from '../src/util';
 
 describe('util', () => {
@@ -43,7 +43,7 @@ describe('util', () => {
     it.skip('works');
   });
 
-  describe('normalizeQueryVars', () => {
+  describe('normalizeQueryEncoding', () => {
     const genQuery = () => (
       r.table('turtles').filter(t => t('color').eq('green'))
     );
@@ -53,8 +53,8 @@ describe('util', () => {
       assert.notStrictEqual(JSON.stringify(q1.build()), JSON.stringify(q2.build()));
     });
     it('results in identical encodings of identical queries', () => {
-      const nq1 = normalizeQueryVars(q1);
-      const nq2 = normalizeQueryVars(q2);
+      const nq1 = normalizeQueryEncoding(q1);
+      const nq2 = normalizeQueryEncoding(q2);
       const tt = protodef.Term.TermType;
       const encoding = [tt.FILTER, [
         [tt.TABLE, ['turtles']],

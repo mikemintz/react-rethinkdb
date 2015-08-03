@@ -63,7 +63,7 @@ export const isCursor = x => (
 //
 // This also simplifies the query whitelist in the backend, since there are
 // fewer variations of the same types of queries.
-export const normalizeQueryVars = query => {
+export const normalizeQueryEncoding = query => {
   // Since we can't clone query objects, we'll make a new query and override
   // the build() method that the driver uses to serialize to the JSON protocol.
   // By using the expression [query], the toString() method will be readable,
