@@ -5,6 +5,10 @@
 
 Render realtime RethinkDB results in React
 
+### Get started
+To get started immediately, follow the [`examples/tutorial/`] project, or clone
+some of the other projects in [`examples/`].
+
 ## What is this?
 
 This library provides a [React] mixin for running [RethinkDB] queries in any
@@ -62,6 +66,9 @@ Most of the query validation logic can be found in
 Check out the [`examples/`] folder in this repository for fully-working React
 applications. You will need to [install RethinkDB] first if you haven't
 already.
+
+The [`examples/tutorial/`] project has in-depth instructions explaining how to
+create a simple app from scratch.
 
 You can also peruse the comments in the source code in the [`src/`] directory:
 * [`Session.js`] to create a new websocket connection to the backend/database
@@ -193,6 +200,7 @@ WebSockets](http://caniuse.com/#feat=websockets), and
 [`examples/`]: examples/
 [`examples/chat/`]: examples/chat/
 [`examples/isomorphic/`]: examples/isomorphic/
+[`examples/tutorial/`]: examples/tutorial/
 [`src/`]: src/
 [`Session.js`]: src/Session.js
 [`Mixin.js`]: src/Mixin.js
