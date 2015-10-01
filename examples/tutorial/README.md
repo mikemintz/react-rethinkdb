@@ -56,7 +56,7 @@ To install node.js and npm, run the following command in your terminal:
 
 ### RethinkDB
 
-[RethinkDB] is an open-source NoSQL database that we will to store and query
+[RethinkDB] is an open-source NoSQL database that we will use to store and query
 data on the server.
 
 To install RethinkDB, run the following command in your terminal:
