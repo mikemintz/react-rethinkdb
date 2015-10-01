@@ -1,6 +1,6 @@
 {
   "name": "react-rethinkdb",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "RethinkDB ReactJS integration",
   "author": "Mike Mintz",
   "license": "MIT",
