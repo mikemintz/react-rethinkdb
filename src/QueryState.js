@@ -25,7 +25,11 @@ export class QueryState {
     this.subscriptions = {};
     this.updateHandler = onUpdate;
     this.closeHandlers = [onCloseQueryState];
+    this.queryRequest = queryRequest;
+    this.runQuery = runQuery;
+  }
 
+  handleConnect() {
     // TODO It would be great not to have to run two separate queries, one with
     // changefeed and one without. Not only is it inefficient, but it could be
     // inaccurate if changes happen in the time between when the two queries
@@ -36,9 +40,13 @@ export class QueryState {
     // remove the redundant static query when queryRequest.changes=true once
     // this RethinkDB feature is implemented.
     // See https://github.com/rethinkdb/rethinkdb/issues/3579
-    this._runStaticQuery(queryRequest.query, runQuery);
-    if (queryRequest.changes) {
-      this._runChangeQuery(queryRequest.query, runQuery);
+    if (this.loading || this.queryRequest.changes) {
+      this.loading = true;
+      this.errors = [];
+      this._runStaticQuery(this.queryRequest.query, this.runQuery);
+      if (this.queryRequest.changes) {
+        this._runChangeQuery(this.queryRequest.query, this.runQuery);
+      }
     }
   }
 
