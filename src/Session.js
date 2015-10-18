@@ -35,13 +35,29 @@ export const MetaSession = RethinkdbWebsocketClient => {
       this._subscriptionManager = new SubscriptionManager(runQueryFn);
     }
 
-    connect({host, port, path, secure, db, simulatedLatencyMs}) {
+    connect({host, port, path, secure, db, simulatedLatencyMs, autoReconnectDelayMs}) {
       ensure(!this._connPromise, 'Session.connect() called when connected');
-      this._connPromise = new Promise((resolve, reject) => {
+      const connectAfterDelay = delayMs => {
         const wsProtocols = ['binary']; // for testing with websockify
         const options = {host, port, path, wsProtocols, secure, db, simulatedLatencyMs};
-        connect(options).then(resolve, reject);
-      });
+        this._connPromise = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            connect(options).then(resolve, reject);
+          }, delayMs);
+        });
+        const onClose = () => {
+          // Don't trigger on client initiated Session.close()
+          if (this._connPromise) {
+            console.warn('RethinkDB WebSocket connection failure.',
+                         `Reconnecting in ${autoReconnectDelayMs}ms`);
+            connectAfterDelay(autoReconnectDelayMs);
+          }
+        };
+        if (autoReconnectDelayMs !== undefined) {
+          this._connPromise.then(conn => conn.on('close', onClose), onClose);
+        }
+      };
+      connectAfterDelay(0);
     }
 
     close() {
