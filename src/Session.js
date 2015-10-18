@@ -56,6 +56,7 @@ export const MetaSession = RethinkdbWebsocketClient => {
         if (autoReconnectDelayMs !== undefined) {
           this._connPromise.then(conn => conn.on('close', onClose), onClose);
         }
+        this._connPromise.then(() => this._subscriptionManager.handleConnect());
       };
       connectAfterDelay(0);
     }
