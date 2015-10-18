@@ -30,6 +30,7 @@ export const AuthWrapper = React.createClass({
       path: path,
       secure: secure,
       db: 'react_example_chat',
+      autoReconnectDelayMs: 2000,
     });
   },
 
