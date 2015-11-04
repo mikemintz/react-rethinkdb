@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "express": "^4.13.3",
-    "react": "^0.13.3",
-    "react-rethinkdb": "^0.4.0",
-    "rethinkdb-websocket-server": "^0.2.0"
+    "react": "^0.14.2",
+    "react-rethinkdb": "^0.4.2",
+    "rethinkdb-websocket-server": "^0.2.1"
   },
   "devDependencies": {
-    "babel-core": "^5.8.22",
-    "babel-loader": "^5.3.2",
-    "webpack": "^1.11.0"
+    "babel-core": "^6.0.20",
+    "babel-loader": "^6.0.1",
+    "babel-preset-react": "^6.0.15",
+    "webpack": "^1.12.2"
   }
 }

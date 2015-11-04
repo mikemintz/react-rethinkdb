@@ -131,9 +131,11 @@ Run the command below to
 * install [webpack], the bundler we'll use to generate a JavaScript source file
   that the browser can download and use
 * install [babel], the JavaScript compiler we'll use to write modern ES2015
-  JavaScript and JSX in our app (the babel-loader module adds webpack support)
+  JavaScript and JSX in our app
+  * The `babel-loader` module allows webpack to run babel
+  * The `babel-preset-react` allows babel to understand React syntax
 
-`$ npm install webpack babel-core babel-loader --save-dev`
+`$ npm install webpack babel-core babel-loader babel-preset-react --save-dev`
 
 
 ## Set up RethinkDB
@@ -278,6 +280,18 @@ This specifies that webpack should:
   exclude this from version control.
 * Use babel to compile all `.js` and `.jsx` files in `./client`
 
+### Add babel config
+
+Babel requires a config file. Create a new file called `./.babelrc` that looks like this:
+
+```
+{
+  "presets": ["react"]
+}
+```
+
+This specifies that babel should enable React's JSX syntax when it compiles
+JavaScript source files.
 
 ## Create the client-side app
 
