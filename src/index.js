@@ -1,16 +1,35 @@
-import {BaseMixin} from './Mixin';
+import {BaseMixin, PropsMixin} from './Mixin';
+import {QueryRequest} from './QueryRequest';
 import {MetaSession} from './Session';
 import * as RethinkdbWebsocketClient from 'rethinkdb-websocket-client';
 
-export {BaseMixin, PropsMixin} from './Mixin';
-export {QueryRequest} from './QueryRequest';
-
-export const r = RethinkdbWebsocketClient.rethinkdb;
-export const Session = MetaSession(RethinkdbWebsocketClient);
+const r = RethinkdbWebsocketClient.rethinkdb;
+const Session = MetaSession(RethinkdbWebsocketClient);
 
 // Singleton session for convenience.
-export const DefaultSession = new Session();
+const DefaultSession = new Session();
 
 // Singleton mixin for convenience, which uses the DefaultSession singleton as
 // the session.
-export const DefaultMixin = BaseMixin(() => DefaultSession);
+const DefaultMixin = BaseMixin(() => DefaultSession);
+
+const ReactRethinkdb = {
+  BaseMixin,
+  PropsMixin,
+  QueryRequest,
+  r,
+  Session,
+  DefaultSession,
+  DefaultMixin
+};
+
+export {
+  BaseMixin,
+  PropsMixin,
+  QueryRequest,
+  r,
+  Session,
+  DefaultSession,
+  DefaultMixin,
+  ReactRethinkdb as default,
+};
