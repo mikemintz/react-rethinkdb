@@ -164,6 +164,37 @@ IE9 and old android browsers are not supported because [they don't have
 WebSockets](http://caniuse.com/#feat=websockets), and
 [rethinkdb-websocket-client] currently requires WebSocket support.
 
+## Upgrade guide
+
+Most new versions of react-rethinkdb are backwards compatible with previous
+versions. Below are exceptions with breaking changes:
+
+### Upgrading to 0.5 (from 0.4)
+
+Version 0.5 of react-rethinkdb [saw the introduction of atomic
+changefeeds](https://github.com/mikemintz/react-rethinkdb/issues/20), which is
+a new feature in [RethinkDB
+2.2](https://github.com/rethinkdb/rethinkdb/blob/5b7b03f017d7e4f560aa3cc3f2c286fefeae3dae/NOTES.md).
+This simplifies the logic by sending one "atomic" changefeed query, rather than
+a static query for initial results followed by a changefeed query for realtime
+updates. This saves bandwidth and prevents the race condition where data
+changes in between the two queries.
+
+Regular static queries will continue to work the same. But in order to use
+react-rethinkdb 0.5 with changefeed queries, you must both:
+* Upgrade to RethinkDB 2.2 in your backend.
+* Add the `include_initial=true` option to all changefeed queries in your
+  rethinkdb-websocket-server query whitelist. Below is an example:
+
+```js
+RQ(
+  RQ.CHANGES(
+    RQ.TABLE("tortoises")
+  ).opt("include_states", true)
+   .opt("include_initial", true) // this line is now required
+).opt("db", RQ.DB("test")),
+```
+
 ## Roadmap
 
 * Investigate performance. I haven't tested with large queries, large numbers
