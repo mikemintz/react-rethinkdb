@@ -39,7 +39,7 @@ export const queryWhitelist = [
           )
         )
       )
-    ).opt("include_states", true)
+    ).opt("include_states", true).opt("include_initial", true)
   ).opt("db", RQ.DB(cfg.dbName)),
 
   // Insert new message
