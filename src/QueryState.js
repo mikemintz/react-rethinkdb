@@ -30,22 +30,13 @@ export class QueryState {
   }
 
   handleConnect() {
-    // TODO It would be great not to have to run two separate queries, one with
-    // changefeed and one without. Not only is it inefficient, but it could be
-    // inaccurate if changes happen in the time between when the two queries
-    // are sent. Unfortunately, many changefeed queries do not provide initial
-    // values, so the static query is necessary to support those.
-    //
-    // RethinkDB 2.2 should support initial values for all change feeds. Let's
-    // remove the redundant static query when queryRequest.changes=true once
-    // this RethinkDB feature is implemented.
-    // See https://github.com/rethinkdb/rethinkdb/issues/3579
     if (this.loading || this.queryRequest.changes) {
       this.loading = true;
       this.errors = [];
-      this._runStaticQuery(this.queryRequest.query, this.runQuery);
       if (this.queryRequest.changes) {
         this._runChangeQuery(this.queryRequest.query, this.runQuery);
+      } else {
+        this._runStaticQuery(this.queryRequest.query, this.runQuery);
       }
     }
   }
@@ -80,24 +71,30 @@ export class QueryState {
   }
 
   _runChangeQuery(query, runQuery) {
-    const changeQuery = query.changes({includeStates: true});
+    const changeQuery = query.changes({includeStates: true, includeInitial: true});
     const promise = runQuery(changeQuery);
     this.closeHandlers.push(() => promise.then(x => isCursor(x) && x.close()));
     promise.then(cursor => {
-      let feedStateReady = false;
+      const isPointFeed = cursor.constructor.name === 'AtomFeed';
+      this.value = isPointFeed ? undefined : [];
       cursor.each((error, row) => {
         if (error) {
           this._addError(error);
         } else {
           if (row.state) {
-            feedStateReady = row.state === 'ready';
-          } else if (feedStateReady) {
-            // We ignore initial values, since we use _runStaticQuery for that
+            if (row.state === 'ready') {
+              this.loading = false;
+              this._updateSubscriptions();
+            }
+          } else {
             this._applyChangeDelta(row.old_val, row.new_val);
           }
         }
       });
     }, error => {
+      if (error.msg === 'Unrecognized optional argument `include_initial`.') {
+        console.error('react-rethinkdb requires rethinkdb >= 2.2 on backend');
+      }
       this._addError(error);
     });
   }
@@ -134,10 +131,6 @@ export class QueryState {
   }
 
   _applyChangeDelta(oldVal, newVal) {
-    if (this.loading) {
-      // TODO Remove this after RethinkDB #3579 is implemented.
-      throw new Error('Received changefeed update before static query result');
-    }
     if (Array.isArray(this.value)) {
       // TODO Make more efficient, with O(1) hashtables with cached
       // JSON.stringify keys. But this may not be necessary after RethinkDB
@@ -163,6 +156,8 @@ export class QueryState {
     } else {
       this.value = newVal;
     }
-    this._updateSubscriptions();
+    if (!this.loading) {
+      this._updateSubscriptions();
+    }
   }
 }
