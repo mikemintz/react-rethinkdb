@@ -89,7 +89,7 @@ export const queryWhitelist = [
           }
         )
       )
-    ).opt("include_states", true)
+    ).opt("include_states", true).opt("include_initial", true)
   ).opt("db", RQ.DB(cfg.dbName)),
 
   // List moves for a game
@@ -107,7 +107,7 @@ export const queryWhitelist = [
         RQ.TABLE("moves"),
         {"gameId": x => typeof x === 'string'}
       )
-    ).opt("include_states", true)
+    ).opt("include_states", true).opt("include_initial", true)
   ).opt("db", RQ.DB(cfg.dbName)),
 
   // Create new game
