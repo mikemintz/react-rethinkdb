@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import crypto from 'crypto';
 import ReactRouter from 'react-router';
 import {DefaultSession as RethinkSession} from 'react-rethinkdb';
@@ -34,5 +35,5 @@ const routes = (
 );
 const mountNode = document.getElementById('app');
 ReactRouter.run(routes, ReactRouter.HashLocation, Root => {
-  React.render(<Root authToken={authToken} />, mountNode);
+  ReactDOM.render(<Root authToken={authToken} />, mountNode);
 });

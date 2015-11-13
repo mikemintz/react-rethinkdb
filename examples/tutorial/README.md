@@ -335,6 +335,7 @@ syntax.
 ```js
 // Import third-party libraries (managed by npm and webpack)
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ReactRethinkdb = require('react-rethinkdb');
 var r = ReactRethinkdb.r;
 
@@ -407,7 +408,7 @@ var App = React.createClass({
 });
 
 // Render the App component into the <div id="app"> element on index.html
-React.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
 

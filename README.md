@@ -80,6 +80,7 @@ Below is a very simple React application to give an idea of the syntax:
 
 ```js
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ReactRethinkdb = require('react-rethinkdb');
 var r = ReactRethinkdb.r;
 
@@ -127,7 +128,7 @@ var App = React.createClass({
   },
 });
 
-React.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
 ## Features

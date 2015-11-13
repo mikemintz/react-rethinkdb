@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var director = require('director');
 var ReactRethinkdb = require('react-rethinkdb');
 
@@ -184,7 +185,7 @@ RethinkSession.connect({
 });
 
 function render() {
-	React.render(
+	ReactDOM.render(
 		<TodoApp />,
 		document.getElementsByClassName('todoapp')[0]
 	);

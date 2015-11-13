@@ -1,5 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {AuthWrapper} from './AuthWrapper.jsx';
 
 const mountNode = document.getElementById('app');
-React.render(<AuthWrapper />, mountNode);
+ReactDOM.render(<AuthWrapper />, mountNode);
