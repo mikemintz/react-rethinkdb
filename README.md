@@ -108,7 +108,7 @@ var App = React.createClass({
 
   handleSubmit: function(event) {
     event.preventDefault();
-    var nameInput = React.findDOMNode(this.refs.firstName);
+    var nameInput = this.refs.firstName;
     var query = r.table('turtles').insert({firstName: nameInput.value});
     nameInput.value = '';
     ReactRethinkdb.DefaultSession.runQuery(query);

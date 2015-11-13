@@ -37,8 +37,8 @@ export const AuthWrapper = React.createClass({
   handleButton(action, event) {
     event.preventDefault();
     const uri = {'login': '/login', 'signup': '/signup'}[action];
-    const userId = React.findDOMNode(this.refs.userId).value;
-    const password = React.findDOMNode(this.refs.password).value;
+    const userId = this.refs.userId.value;
+    const password = this.refs.password.value;
     this.setState({error: false});
     request
     .post(uri)

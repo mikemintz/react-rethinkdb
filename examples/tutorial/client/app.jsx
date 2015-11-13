@@ -44,7 +44,7 @@ var App = React.createClass({
   // grabs the text field value and runs a RethinkDB query to insert a new row.
   handleSubmit: function(event) {
     event.preventDefault();
-    var nameInput = React.findDOMNode(this.refs.firstName);
+    var nameInput = this.refs.firstName;
     var query = r.table('turtles').insert({firstName: nameInput.value});
     nameInput.value = '';
     ReactRethinkdb.DefaultSession.runQuery(query);

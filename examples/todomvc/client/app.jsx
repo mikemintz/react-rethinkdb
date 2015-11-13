@@ -49,12 +49,12 @@ var TodoApp = React.createClass({
 
 		event.preventDefault();
 
-		var val = React.findDOMNode(this.refs.newField).value.trim();
+		var val = this.refs.newField.value.trim();
 
 		if (val) {
 			var q = r.table('todos').insert({title: val, completed: false, createdAt: r.now()});
 			RethinkSession.runQuery(q);
-			React.findDOMNode(this.refs.newField).value = '';
+			this.refs.newField.value = '';
 		}
 	},
 
