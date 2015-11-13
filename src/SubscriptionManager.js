@@ -14,15 +14,19 @@ export class SubscriptionManager {
     this.runQuery = runQuery;
     this.queryKeyToState = {};
     this.doneLoadingCallbacks = [];
-    this.connectedOnce = false;
+    this.connected = false;
   }
 
   handleConnect() {
-    this.connectedOnce = true;
+    this.connected = true;
     Object.keys(this.queryKeyToState).forEach(queryKey => {
       const queryState = this.queryKeyToState[queryKey];
       queryState.handleConnect();
     });
+  }
+
+  handleDisconnect() {
+    this.connected = false;
   }
 
   subscribe(component, queryRequest, queryResult) {
@@ -35,7 +39,7 @@ export class SubscriptionManager {
       };
       queryState = new QueryState(queryRequest, this.runQuery,
                                   onUpdate, onCloseQueryState);
-      if (this.connectedOnce) {
+      if (this.connected) {
         queryState.handleConnect();
       }
       this.queryKeyToState[queryKey] = queryState;

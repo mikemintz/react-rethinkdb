@@ -46,6 +46,7 @@ export const MetaSession = RethinkdbWebsocketClient => {
           }, delayMs);
         });
         const onClose = () => {
+          this._subscriptionManager.handleDisconnect();
           // Don't trigger on client initiated Session.close()
           if (this._connPromise) {
             console.warn('RethinkDB WebSocket connection failure.',
