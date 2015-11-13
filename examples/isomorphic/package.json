@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "react": "^0.13.3",
-    "react-rethinkdb": "^0.4.0",
+    "react-rethinkdb": "^0.5.1",
 
     "bluebird": "^2.9.30",
     "express": "^4.13.0",
-    "rethinkdb-websocket-server": "^0.2.0"
+    "rethinkdb-websocket-server": "^0.3.2"
   },
   "devDependencies": {
     "babel": "^5.6.14",

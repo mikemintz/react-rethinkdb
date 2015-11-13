@@ -16,12 +16,12 @@
     "lodash": "^3.10.0",
     "moment": "^2.10.3",
     "react": "^0.13.3",
-    "react-rethinkdb": "^0.4.0",
+    "react-rethinkdb": "^0.5.1",
     "react-router": "^0.13.3",
 
     "bluebird": "^2.9.27",
     "express": "^4.12.4",
-    "rethinkdb-websocket-server": "^0.2.0"
+    "rethinkdb-websocket-server": "^0.3.2"
   },
   "devDependencies": {
     "babel": "^5.5.6",
