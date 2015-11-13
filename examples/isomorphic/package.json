@@ -10,7 +10,8 @@
     "postinstall": "webpack"
   },
   "dependencies": {
-    "react": "^0.13.3",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
     "react-rethinkdb": "^0.5.1",
 
     "bluebird": "^2.9.30",

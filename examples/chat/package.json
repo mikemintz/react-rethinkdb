@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "moment": "^2.10.3",
-    "react": "^0.13.3",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
     "react-rethinkdb": "^0.5.1",
     "superagent": "^1.2.0",
 
