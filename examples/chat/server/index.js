@@ -2,10 +2,9 @@ import {AuthManager} from './AuthManager';
 import cfg from './config';
 import express from 'express';
 import http from 'http';
-import {listen as wsListen} from 'rethinkdb-websocket-server';
+import {r, listen as wsListen} from 'rethinkdb-websocket-server';
 import Promise from 'bluebird';
 import {queryWhitelist} from './queries';
-import r from 'rethinkdb';
 
 // Connect to rethinkdb so we can perform authentication queries
 const dbOpts = {host: cfg.dbHost, port: cfg.dbPort, db: cfg.dbName};

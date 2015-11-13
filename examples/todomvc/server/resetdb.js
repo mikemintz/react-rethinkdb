@@ -1,7 +1,7 @@
 'use strict';
 
 var Promise = require('bluebird');
-var r = require('rethinkdb');
+var r = require('rethinkdb-websocket-server').r;
 
 var dbName = 'react_example_todomvc';
 

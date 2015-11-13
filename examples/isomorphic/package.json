@@ -15,7 +15,6 @@
 
     "bluebird": "^2.9.30",
     "express": "^4.13.0",
-    "rethinkdb": "^2.0.2",
     "rethinkdb-websocket-server": "^0.2.0"
   },
   "devDependencies": {

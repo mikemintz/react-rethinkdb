@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import cfg from './config';
 import crypto from 'crypto';
 import Promise from 'bluebird';
-import r from 'rethinkdb';
+import {r} from 'rethinkdb-websocket-server';
 
 export class AuthManager {
   constructor(dbConnPromise) {

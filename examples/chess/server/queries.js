@@ -1,7 +1,6 @@
 import cfg from './config';
-import r from 'rethinkdb';
 import Promise from 'bluebird';
-import {RQ} from 'rethinkdb-websocket-server';
+import {r, RQ} from 'rethinkdb-websocket-server';
 import chess from 'chess';
 import _ from 'lodash';
 

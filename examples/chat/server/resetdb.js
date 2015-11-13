@@ -1,5 +1,5 @@
 import Promise from 'bluebird';
-import r from 'rethinkdb';
+import {r} from 'rethinkdb-websocket-server';
 import cfg from './config';
 
 const connPromise = Promise.promisify(r.connect)({
