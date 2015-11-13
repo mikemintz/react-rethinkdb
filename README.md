@@ -64,8 +64,8 @@ Most of the query validation logic can be found in
 ## How do I use this?
 
 Check out the [`examples/`] folder in this repository for fully-working React
-applications. You will need to [install RethinkDB] first if you haven't
-already.
+applications. You will need to [install RethinkDB] version 2.2 or newer first
+if you haven't already.
 
 The [`examples/tutorial/`] project has in-depth instructions explaining how to
 create a simple app from scratch.

@@ -67,6 +67,8 @@ To install RethinkDB, run the following command in your terminal:
 | Arch Linux | `sudo pacman -S rethinkdb`         |
 | Other      | http://rethinkdb.com/docs/install/ |
 
+Make sure you are using version 2.2 or newer.
+
 
 ## Set up npm package
 
