@@ -26,7 +26,6 @@
     "no-mixed-requires": [2],
     "no-mixed-spaces-and-tabs": [2],
     "no-trailing-spaces": [2],
-    "no-underscore-dangle": [2],
     "space-after-function-name": [2, "never"],
     "space-after-keywords": [2, "always"],
     "space-before-blocks": [2, "always"],
