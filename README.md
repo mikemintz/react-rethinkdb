@@ -72,7 +72,7 @@ create a simple app from scratch.
 
 You can also peruse the comments in the source code in the [`src/`] directory:
 * [`Session.js`] to create a new websocket connection to the backend/database
-* [`Mixin.js`] to enable a React component to subscribe to RethinKDB queries
+* [`Mixin.js`] to enable a React component to subscribe to RethinkDB queries
 * [`QueryRequest.js`] to configure queries in subscribed React components
 * [`QueryResult.js`] to use results from queries in `render()`
 
