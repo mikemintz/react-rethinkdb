@@ -52,8 +52,8 @@ before they are forwarded to RethinkDB. From its README:
 > As you are developing, incoming queries that don't validate against the
 > whitelist will be logged to console in a format that you can copy and paste
 > directly into your JavaScript source file. For dynamic queries, you'll likely
-> want to generalize the pattern using `function(actual, refs, session)` terms,
-> `RP.ref()` terms, and the `.validate()` method.
+> want to generalize the pattern using `RP.check()` terms, `RP.ref()` terms,
+> and the `.validate()` method.
 
 See [`examples/chat/`] for an
 example app that has user authentication and query validation in the backend.
