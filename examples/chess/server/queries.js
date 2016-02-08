@@ -1,6 +1,6 @@
 import cfg from './config';
 import Promise from 'bluebird';
-import {r, RQ} from 'rethinkdb-websocket-server';
+import {r, RP} from 'rethinkdb-websocket-server';
 import chess from 'chess';
 import _ from 'lodash';
 
@@ -14,154 +14,62 @@ const run = query => dbConnPromise.then(c => query.run(c));
 // copied manually into this file while developing the front-end.
 //
 // I then replaced dynamic parts of the queries like the game id with
-// pattern functions like x => typeof x === 'string'
+// pattern functions like RP.check(x => typeof x === 'string')
 //
-// I then replaced parts of the insert move query with RQ.ref() references and
+// I then replaced parts of the insert move query with RP.ref() references and
 // added a validate() call, which ensures users cannot impersonate other users
 // and that moves are valid chess moves.
 export const queryWhitelist = [
 
-  // List games
-  RQ(
-    RQ.MERGE(
-      RQ.TABLE("games"),
-      RQ.FUNC(
-        RQ.MAKE_ARRAY(0),
-        {
-          "whiteAuthToken": RQ.BRANCH(
-            RQ.EQ(
-              RQ.BRACKET(RQ.IMPLICIT_VAR(), "whiteAuthToken"),
-              x => typeof x === 'string'
-            ),
-            x => typeof x === 'string',
-            RQ.NE(
-              RQ.BRACKET(RQ.IMPLICIT_VAR(), "whiteAuthToken"),
-              null
-            )
-          ),
-          "blackAuthToken": RQ.BRANCH(
-            RQ.EQ(
-              RQ.BRACKET(RQ.IMPLICIT_VAR(), "blackAuthToken"),
-              x => typeof x === 'string'
-            ),
-            x => typeof x === 'string',
-            RQ.NE(
-              RQ.BRACKET(RQ.IMPLICIT_VAR(), "blackAuthToken"),
-              null
-            )
-          )
-        }
-      )
-    )
-  ).opt("db", RQ.DB(cfg.dbName)),
-
   // List games with changefeed
-  RQ(
-    RQ.CHANGES(
-      RQ.MERGE(
-        RQ.TABLE("games"),
-        RQ.FUNC(
-        RQ.MAKE_ARRAY(0),
-          {
-            "whiteAuthToken": RQ.BRANCH(
-              RQ.EQ(
-                RQ.BRACKET(RQ.IMPLICIT_VAR(), "whiteAuthToken"),
-                x => typeof x === 'string'
-              ),
-              x => typeof x === 'string',
-              RQ.NE(
-                RQ.BRACKET(RQ.IMPLICIT_VAR(), "whiteAuthToken"),
-                null
-              )
-            ),
-            "blackAuthToken": RQ.BRANCH(
-              RQ.EQ(
-                RQ.BRACKET(RQ.IMPLICIT_VAR(), "blackAuthToken"),
-                x => typeof x === 'string'
-              ),
-              x => typeof x === 'string',
-              RQ.NE(
-                RQ.BRACKET(RQ.IMPLICIT_VAR(), "blackAuthToken"),
-                null
-              )
-            )
-          }
-        )
-      )
-    ).opt("include_states", true).opt("include_initial", true)
-  ).opt("db", RQ.DB(cfg.dbName)),
-
-  // List moves for a game
-  RQ(
-    RQ.FILTER(
-      RQ.TABLE("moves"),
-      {"gameId": x => typeof x === 'string'}
-    )
-  ).opt("db", RQ.DB(cfg.dbName)),
+  r.table("games").merge({
+    blackAuthToken: r.branch(
+      r.row("blackAuthToken").eq(RP.check(x => typeof x === 'string')),
+      RP.check(x => typeof x === 'string'),
+      r.row("blackAuthToken").ne(null)
+    ),
+    whiteAuthToken: r.branch(
+      r.row("whiteAuthToken").eq(RP.check(x => typeof x === 'string')),
+      RP.check(x => typeof x === 'string'),
+      r.row("whiteAuthToken").ne(null)
+    ),
+  })
+  .changes({includeStates: true, includeInitial: true})
+  .opt("db", r.db(cfg.dbName)),
 
   // List moves for a game with changefeed
-  RQ(
-    RQ.CHANGES(
-      RQ.FILTER(
-        RQ.TABLE("moves"),
-        {"gameId": x => typeof x === 'string'}
-      )
-    ).opt("include_states", true).opt("include_initial", true)
-  ).opt("db", RQ.DB(cfg.dbName)),
+  r.table("moves")
+   .filter({"gameId": RP.check(x => typeof x === 'string')})
+   .changes({includeStates: true, includeInitial: true})
+   .opt("db", r.db(cfg.dbName)),
 
   // Create new game
-  RQ(
-    RQ.INSERT(
-      RQ.TABLE("games"),
-      {
-        "createdAt": RQ.NOW(),
-        "whiteAuthToken": null,
-        "blackAuthToken": null
-      }
-    )
-  ).opt("db", RQ.DB(cfg.dbName)),
+  r.table("games").insert({
+    createdAt: r.now(),
+    whiteAuthToken: null,
+    blackAuthToken: null,
+  }).opt("db", r.db(cfg.dbName)),
 
   // Sit down as white
-  RQ(
-    RQ.UPDATE(
-      RQ.FILTER(
-        RQ.TABLE("games"),
-        {
-          "id": x => typeof x === 'string',
-          "whiteAuthToken": null
-        }
-      ),
-      {"whiteAuthToken": x => typeof x === 'string'}
-    )
-  ).opt("db", RQ.DB(cfg.dbName)),
+  r.table("games")
+   .filter({id: RP.check(x => typeof x === 'string'), whiteAuthToken: null})
+   .update({whiteAuthToken: RP.check(x => typeof x === 'string')})
+   .opt("db", r.db(cfg.dbName)),
 
   // Sit down as black
-  RQ(
-    RQ.UPDATE(
-      RQ.FILTER(
-        RQ.TABLE("games"),
-        {
-          "id": x => typeof x === 'string',
-          "blackAuthToken": null
-        }
-      ),
-      {"blackAuthToken": x => typeof x === 'string'}
-    )
-  ).opt("db", RQ.DB(cfg.dbName)),
+  r.table("games")
+   .filter({id: RP.check(x => typeof x === 'string'), blackAuthToken: null})
+   .update({blackAuthToken: RP.check(x => typeof x === 'string')})
+   .opt("db", r.db(cfg.dbName)),
 
   // Create a new move
-  RQ(
-    RQ.INSERT(
-      RQ.TABLE("moves"),
-      {
-        "timeStep": RQ.ref('timeStep'),
-        "src": RQ.ref('src'),
-        "dst": RQ.ref('dst'),
-        "gameId": RQ.ref('gameId'),
-        "createdAt": RQ.NOW()
-      }
-    )
-  ).opt("db", RQ.DB(cfg.dbName))
+  r.table("moves").insert({
+    timeStep: RP.ref('timeStep'),
+    src: RP.ref('src'),
+    dst: RP.ref('dst'),
+    gameId: RP.ref('gameId'),
+    createdAt: r.now(),
+  }).opt("db", r.db(cfg.dbName))
   .validate((refs, session) => {
     return run(r.table('games').get(refs.gameId)).then(game => {
       return run(r.table('moves').filter({gameId: refs.gameId})).then(moveCursor => {

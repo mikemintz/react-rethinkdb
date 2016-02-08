@@ -53,7 +53,7 @@ before they are forwarded to RethinkDB. From its README:
 > whitelist will be logged to console in a format that you can copy and paste
 > directly into your JavaScript source file. For dynamic queries, you'll likely
 > want to generalize the pattern using `function(actual, refs, session)` terms,
-> `RQ.ref()` terms, and the `.validate()` method.
+> `RP.ref()` terms, and the `.validate()` method.
 
 See [`examples/chat/`] for an
 example app that has user authentication and query validation in the backend.
@@ -186,6 +186,17 @@ react-rethinkdb 0.5 with changefeed queries, you must both:
 * Upgrade to RethinkDB 2.2 in your backend.
 * Add the `include_initial=true` option to all changefeed queries in your
   rethinkdb-websocket-server query whitelist. Below is an example:
+
+```js
+r.table("tortoises")
+ .changes({
+   includeStates: true,
+   includeInitial: true, // this line is now required
+ })
+ .opt("db", r.db("test")),
+```
+
+Or with the old syntax:
 
 ```js
 RQ(

@@ -23,7 +23,7 @@
 
     "bluebird": "^2.9.27",
     "express": "^4.12.4",
-    "rethinkdb-websocket-server": "^0.3.2"
+    "rethinkdb-websocket-server": "^0.3.6"
   },
   "devDependencies": {
     "babel": "^5.5.6",
