@@ -35,10 +35,9 @@ export const MetaSession = RethinkdbWebsocketClient => {
       this._subscriptionManager = new SubscriptionManager(runQueryFn);
     }
 
-    connect({host, port, path, secure, db, simulatedLatencyMs, autoReconnectDelayMs}) {
+    connect({host, port, path, wsProtocols, secure, db, simulatedLatencyMs, autoReconnectDelayMs}) {
       ensure(!this._connPromise, 'Session.connect() called when connected');
       const connectAfterDelay = delayMs => {
-        const wsProtocols = ['binary']; // for testing with websockify
         const options = {host, port, path, wsProtocols, secure, db, simulatedLatencyMs};
         this._connPromise = new Promise((resolve, reject) => {
           setTimeout(() => {
