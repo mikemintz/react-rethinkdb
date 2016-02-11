@@ -46,7 +46,6 @@
     "comma-dangle": [0],
     "new-cap": [0],
     "no-alert": [0],
-    "no-underscore-dangle": [0],
     "quotes": [0],
 
     "react/jsx-no-undef": 2,
