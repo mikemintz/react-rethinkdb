@@ -33,11 +33,7 @@ export class QueryState {
     if (this.loading || this.queryRequest.changes) {
       this.loading = true;
       this.errors = [];
-      if (this.queryRequest.changes) {
-        this._runChangeQuery(this.queryRequest.query, this.runQuery);
-      } else {
-        this._runStaticQuery(this.queryRequest.query, this.runQuery);
-      }
+      this._runQuery(this.queryRequest.query, this.runQuery, this.queryRequest.changes);
     }
   }
 
@@ -54,43 +50,38 @@ export class QueryState {
     return {unsubscribe};
   }
 
-  _runStaticQuery(query, runQuery) {
-    const promise = runQuery(query);
+  _runQuery(query, runQuery, changes = false) {
+    const changeQuery = query.changes({includeStates: true, includeInitial: true});
+    const promise = runQuery(changes ? changeQuery : query);
     this.closeHandlers.push(() => promise.then(x => isCursor(x) && x.close()));
     promise.then(cursor => {
-      if (isCursor(cursor)) {
-        cursor.toArray().then(result => {
-          this._updateValue(result);
+      const isFeed = !!cursor.constructor.name.match(/Feed$/);
+      if (isFeed) {
+        const isPointFeed = cursor.constructor.name === 'AtomFeed';
+        this.value = isPointFeed ? undefined : [];
+        cursor.each((error, row) => {
+          if (error) {
+            this._addError(error);
+          } else {
+            if (row.state) {
+              if (row.state === 'ready') {
+                this.loading = false;
+                this._updateSubscriptions();
+              }
+            } else {
+              this._applyChangeDelta(row.old_val, row.new_val);
+            }
+          }
         });
       } else {
-        this._updateValue(cursor);
-      }
-    }, error => {
-      this._addError(error);
-    });
-  }
-
-  _runChangeQuery(query, runQuery) {
-    const changeQuery = query.changes({includeStates: true, includeInitial: true});
-    const promise = runQuery(changeQuery);
-    this.closeHandlers.push(() => promise.then(x => isCursor(x) && x.close()));
-    promise.then(cursor => {
-      const isPointFeed = cursor.constructor.name === 'AtomFeed';
-      this.value = isPointFeed ? undefined : [];
-      cursor.each((error, row) => {
-        if (error) {
-          this._addError(error);
+        if (isCursor(cursor)) {
+          cursor.toArray().then(result => {
+            this._updateValue(result);
+          });
         } else {
-          if (row.state) {
-            if (row.state === 'ready') {
-              this.loading = false;
-              this._updateSubscriptions();
-            }
-          } else {
-            this._applyChangeDelta(row.old_val, row.new_val);
-          }
+          this._updateValue(cursor);
         }
-      });
+      }
     }, error => {
       if (error.msg === 'Unrecognized optional argument `include_initial`.') {
         console.error('react-rethinkdb requires rethinkdb >= 2.2 on backend');
