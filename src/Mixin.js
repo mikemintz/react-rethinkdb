@@ -82,8 +82,13 @@ export const BaseMixin = sessionGetter => ({
     update(this, this.props, this.state);
   },
 
+  componentDidMount() {
+    this._rethinkMixinState.isMounted = true;
+  },
+
   componentWillUnmount() {
     unmount(this);
+    this._rethinkMixinState.isMounted = false;
   },
 
   componentWillUpdate(nextProps, nextState) {
