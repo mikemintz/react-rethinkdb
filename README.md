@@ -156,10 +156,14 @@ So far, this library has been tested successfully in the following environments:
 * Safari 8.0 (OS X 10.10)
 * Safari 8.0 (iOS 8.1)
 * IE11 (Win 7)
+* IE10 (Win 7)
 * Node.js 0.12 (Linux)
 
-In order to support IE10, the following issue needs to be resolved in the
-RethinkDB JS driver: https://github.com/rethinkdb/rethinkdb/issues/162
+In IE10, your queries must use `r.bracket` instead of function-call shorthand.
+E.g. `r.table('turtles').get(id)("name")` must be written as
+`r.table('turtles').get(id).bracket("name")`. See
+[rethinkdb#162](https://github.com/rethinkdb/rethinkdb/issues/162#issuecomment-119829798)
+for more details.
 
 IE9 and old android browsers are not supported because [they don't have
 WebSockets](http://caniuse.com/#feat=websockets), and
