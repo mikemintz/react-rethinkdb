@@ -17,7 +17,7 @@
     "dist"
   ],
   "dependencies": {
-    "rethinkdb-websocket-client": "^0.4.6"
+    "rethinkdb-websocket-client": "^0.4.7"
   },
   "devDependencies": {
     "babel": "^5.5.6",
