@@ -18,7 +18,7 @@ const update = (component, props, state) => {
   Object.keys(observed).forEach(key => {
     const queryRequest = observed[key];
     const oldSubscription = subscriptions[key];
-    const queryResult = component.data[key] || new QueryResult(queryRequest.initial);
+    const queryResult = component.data[key] || new QueryResult(queryRequest.initial, queryRequest.transform);
     subscriptions[key] = subscriptionManager.subscribe(component, queryRequest, queryResult);
     component.data[key] = queryResult;
     if (oldSubscription) {
