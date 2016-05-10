@@ -6,10 +6,11 @@ import {normalizeQueryEncoding} from './util';
 // for the API.
 //
 // QueryRequests have have 3 required properties.
-// * query:   the RethinkDB query to run
-// * changes: boolean specifying whether to subscribe to the realtime
-//            changefeed too
-// * initial: value to be returned before the query finishes loading
+// * query:     the RethinkDB query to run
+// * changes:   boolean specifying whether to subscribe to the realtime
+//              changefeed too
+// * initial:   value to be returned before the query finishes loading
+// * transform: function applied after the query finishes loading
 //
 // Here is a simple example of an QueryRequest that a component might use in
 // its observe() function:
@@ -17,12 +18,19 @@ import {normalizeQueryEncoding} from './util';
 //     query: r.table('turtles'),
 //     changes: true,
 //     initial: [],
+//     transform: (rows) => { // array-to-object, using id as key for O(1) lookup
+//       rows.reduce((prev, cur) => {
+//        prev[cur.id] = cur
+//        prev
+//      }, {})
+//    }
 //   })
 export class QueryRequest {
-  constructor({query, changes, initial}) {
+  constructor({query, changes, initial, transform}) {
     this.query = normalizeQueryEncoding(query);
     this.changes = changes;
     this.initial = initial;
+    this.transform = transform;
   }
 
   // Convert the QueryRequest into a string that can be used as a

@@ -6,7 +6,8 @@
 // QueryResults are available in this.data for components that use the
 // provided mixin. See Mixin.js for the API.
 export class QueryResult {
-  constructor(initialValue) {
+  constructor(initialValue, transform) {
+    this._transform = transform;
     this._initialValue = initialValue;
     this._unresetValue = undefined;
     this._value = undefined;
@@ -50,11 +51,14 @@ export class QueryResult {
   // query results may seem inconsistent with the rest of the view. Using the
   // loading() method in the UI should help.
   value({allowStaleQuery = false} = {}) {
-    if (allowStaleQuery) {
-      return this._loadingInitial ? this._initialValue : this._unresetValue;
-    } else {
-      return this._loading ? this._initialValue : this._value;
-    }
+    const value = allowStaleQuery
+      ? (this._loadingInitial // allows stale queries
+        ? this._initialValue
+        : this._unresetValue)
+      : (this._loading // ...does not
+        ? this._initialValue
+        : this._value);
+    return this._transform ? this._transform(value) : value;
   }
 
   // Return true if we are waiting to receive the query results from the
