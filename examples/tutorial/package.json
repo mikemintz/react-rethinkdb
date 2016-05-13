@@ -13,7 +13,7 @@
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-rethinkdb": "^0.5.1",
-    "rethinkdb-websocket-server": "^0.3.2"
+    "rethinkdb-websocket-server": "^0.5.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.20",
