@@ -125,7 +125,7 @@ Run the command below to
 * install [react-rethinkdb], the library we'll use to subscribe to database
   queries from our React app
 
-`$ npm install react react-rethinkdb --save`
+`$ npm install react react-dom react-rethinkdb --save`
 
 ### Build tools
 
