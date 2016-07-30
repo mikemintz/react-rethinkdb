@@ -25,5 +25,8 @@
     "babel-eslint": "^4.1.7",
     "eslint": "^0.22.1",
     "mocha": "^2.2.5"
+  },
+  "peerDependencies": {
+  	"react": "^0.13.0 || ^0.14.0 || ^15.0.0"
   }
 }

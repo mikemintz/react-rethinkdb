@@ -1,7 +1,7 @@
 import {QueryResult} from './QueryResult';
 import {ensure} from './util';
 
-const update = (component, props, state) => {
+export const update = (component, props, state) => {
   const observed = component.observe(props, state);
   const {session, subscriptions} = component._rethinkMixinState;
   const subscriptionManager = session._subscriptionManager;
@@ -27,7 +27,7 @@ const update = (component, props, state) => {
   });
 };
 
-const unmount = component => {
+export const unmount = component => {
   const {subscriptions} = component._rethinkMixinState;
   Object.keys(subscriptions).forEach(key => {
     subscriptions[key].unsubscribe();
