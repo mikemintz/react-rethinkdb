@@ -35,8 +35,9 @@ export const MetaSession = RethinkdbWebsocketClient => {
       this._subscriptionManager = new SubscriptionManager(runQueryFn);
     }
 
-    connect({host, port, path, wsProtocols, secure, db, simulatedLatencyMs, autoReconnectDelayMs}) {
+    connect({host, port, path, wsProtocols, secure, db, simulatedLatencyMs, autoReconnectDelayMs, onConnectionErrorCallback}) {
       ensure(!this._connPromise, 'Session.connect() called when connected');
+      const _onConnectionErrorCallback = onConnectionErrorCallback ? onConnectionErrorCallback : e => console.log(e);
       const connectAfterDelay = delayMs => {
         const options = {host, port, path, wsProtocols, secure, db, simulatedLatencyMs};
         this._connPromise = new Promise((resolve, reject) => {
@@ -48,7 +49,7 @@ export const MetaSession = RethinkdbWebsocketClient => {
           this._subscriptionManager.handleDisconnect();
           // Don't trigger on client initiated Session.close()
           if (this._connPromise) {
-            console.warn('RethinkDB WebSocket connection failure.',
+            console.log('RethinkDB WebSocket connection failure.',
                          `Reconnecting in ${autoReconnectDelayMs}ms`);
             connectAfterDelay(autoReconnectDelayMs);
           }
@@ -56,7 +57,7 @@ export const MetaSession = RethinkdbWebsocketClient => {
         if (autoReconnectDelayMs !== undefined) {
           this._connPromise.then(conn => conn.on('close', onClose), onClose);
         }
-        this._connPromise.then(() => this._subscriptionManager.handleConnect());
+        this._connPromise.then(() => this._subscriptionManager.handleConnect()).catch(_onConnectionErrorCallback);
       };
       connectAfterDelay(0);
     }
