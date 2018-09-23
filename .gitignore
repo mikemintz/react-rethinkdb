@@ -2,3 +2,4 @@
 /node_modules/
 /dist/
 /rethinkdb_data/
+/untracked/
