@@ -328,7 +328,7 @@ that describe what's happening.
 You may want to read up on [RethinkDB queries] if you're unfamiliar with the ReQL
 syntax below, e.g. `r.table('turtles').insert(...)`.
 
-And you may want to read the the [React tutorial] if you're unfamiliar with
+And you may want to read the[React tutorial] if you're unfamiliar with
 React concepts, e.g. `React.createClass`, `render()`, `props`, `state`, and JSX
 syntax.
 
